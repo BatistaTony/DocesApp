@@ -1,0 +1,52 @@
+@import "./colors.scss";
+@import "./fonts.scss";
+@import "./mixins.scss";
+
+body {
+  background-color: $login_bg;
+  height: auto;
+}
+
+.home {
+  display: none;
+
+}
+
+@media (max-width: 700px) {
+  
+  .home {
+    @include flexboxStyle(row, flex-start, flex-start);
+    height: auto;
+    display: block;
+    z-index: 99999;
+  }
+
+  .pag {
+    width: 100%;
+    height: auto;
+    position: relative;
+    top: 0;
+    left: 0;
+  }
+
+  .content {
+    width: 100%;
+    height: auto;
+    margin-top: -135px;
+    padding-bottom: 10%;
+    overflow-y: auto;
+  }
+
+  .btn_cart {
+    position: fixed;
+    bottom: 1.5%;
+    right: 3%;
+    @include getOutBorder();
+    width: 55px;
+    height: 32px;
+    z-index: 11;
+    background-color: $btn_color;
+    border-radius: 7px;
+    @include flexboxStyle(row, center, center);
+  }
+}

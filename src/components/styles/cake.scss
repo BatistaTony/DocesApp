@@ -1,0 +1,214 @@
+@import "mixins.scss";
+@import "colors.scss";
+@import "fonts.scss";
+
+.cake {
+  width: 100%;
+  height: 100vh;
+  @include flexboxStyle(column, space-between, flex-start);
+}
+
+.OverlaySucess {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  position: absolute;
+  background-color: rgba(32, 30, 30, 0.212);
+
+  .div_1_ {
+    width: 100%;
+    height: 100vh;
+    @include flexboxStyle(column, center, center);
+  }
+
+  .textD {
+    margin-top: 15em;
+    padding: 3%;
+    padding-left: 10%;
+    padding-right: 10%;
+    font-size: 13pt;
+    font-family: $goldSemibold;
+    border-radius: 10px;
+    background-color: white;
+    @include flexboxStyle(row, center, center);
+
+    img {
+      width: 25px;
+      height: 25px;
+      margin-right: 5px;
+    }
+  }
+}
+
+.divSucess {
+  width: 100px;
+  height: 30px;
+  background-color: gray;
+}
+
+.cake_info {
+  width: 100%;
+  height: 87vh;
+  margin-top: 10px;
+  @include flexboxStyle(column, center, flex-start);
+  cursor: default;
+
+  .img_div {
+    width: 90%;
+    height: 300px;
+  }
+
+  .img_cake {
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .details_cake {
+    width: 90%;
+    height: auto;
+    position: relative;
+    margin-top: 7px;
+
+    .type_cake {
+      font-family: $goldRegular;
+      font-size: 10pt;
+      color: rgb(231, 146, 18);
+    }
+
+    .price_cake {
+      position: absolute;
+      right: 2.5%;
+      top: 0;
+      border-radius: 5px;
+      font-size: 19pt;
+      font-weight: 500;
+      font-family: $goldBold;
+      color: white;
+    }
+
+    .lovers_cake {
+      margin-top: 5px;
+      @include loversStyle();
+    }
+
+    .weight_cake {
+      border-radius: 5px;
+      font-size: 13pt;
+      font-weight: 500;
+      font-family: $goldSemibold;
+      color: white;
+    }
+  }
+}
+
+.btnOrder {
+  width: 100%;
+  padding-right: 15px;
+  box-sizing: border-box;
+  padding-bottom: 2%;
+  @include flexboxStyle(row, center, flex-end);
+
+  .btnCake {
+    width: 160px;
+    height: 40px;
+    border-radius: 5px;
+    @include getOutBorder();
+    margin-left: 20px;
+    font-size: 9.5pt;
+    font-family: $goldSemibold;
+  }
+
+  .btnOrderNow {
+    background-color: rgb(218, 30, 133);
+    color: white;
+  }
+
+  .btnAddCart {
+    background-color: $btn_color;
+  }
+}
+
+.orderDivShowed {
+  height: 140px !important;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  background-color: RED;
+}
+
+.orderProdNumber {
+  width: 100%;
+  height: 0;
+  transition: 0;
+  overflow: hidden;
+  position: fixed;
+  transition: 0.5s;
+  bottom: 0;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  background-color: white;
+
+  .shapeDiv {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    @include flexboxStyle(column, center, space-between);
+  }
+
+  .addQ {
+    width: 100%;
+    @include flexboxStyle(row, center, space-between);
+    width: 180px;
+  }
+
+  .btnAdd {
+    @include getOutBorder();
+    width: 33px;
+    height: 33px;
+    border-radius: 100%;
+    @include flexboxStyle(row, center, center);
+    background-color: $login_bg;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .quantCake {
+    width: 70px;
+    height: 30px;
+    background-color: $login_bg;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    @include getOutBorder();
+    font-size: 12.5pt;
+    font-family: $goldBold;
+    @include flexboxStyle(row, center, center);
+  }
+
+  .totalPrice {
+    font-size: 17pt;
+    color: $login_bg;
+    font-family: $goldBold;
+  }
+
+  .btnClose {
+    @include btnDeleteOrClose();
+  }
+
+  .btnConfir {
+    width: 170px;
+    height: 34px;
+    border-radius: 50px;
+    background-color: $login_bg;
+    color: white;
+    font-size: 10pt;
+    font-family: $goldSemibold;
+    @include getOutBorder();
+  }
+}

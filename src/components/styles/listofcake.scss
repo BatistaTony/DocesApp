@@ -1,0 +1,120 @@
+@import "./colors.scss";
+@import "./fonts.scss";
+@import "./mixins.scss";
+
+.news {
+  width: 100%;
+  height: auto;
+  margin-top: 5%;
+  box-sizing: border-box;
+  @include flexboxStyle(column, center, flex-start);
+}
+
+
+.titl_news {
+  width: 100%;
+  font-size: 13pt;
+  padding-left: 24px;
+  box-sizing: border-box;
+  font-family: $goldMedium;
+  font-weight: 500;
+  color: white;
+}
+
+.list_news {
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+  height: auto;
+  display: grid;
+  margin-top: 4%;
+  align-items: center;
+  box-sizing: border-box;
+  padding-right: 10% !important;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.item_cake {
+  height: 235px;
+  position: relative;
+  margin-top: 1%;
+  border-radius: 10px;
+  @include flexboxStyle(column, center, flex-start);
+  width: 140px;
+  margin-right: 35px;
+  cursor: default;
+  margin-bottom: 10px;
+
+  &:first-child {
+    margin-left: 24px;
+  }
+
+  .hd_item {
+    width: 100%;
+    padding-left: 4%;
+    padding-right: 4%;
+    padding-top: 4%;
+    box-sizing: border-box;
+    height: auto;
+    margin-top: -1%;
+
+    @include flexboxStyle(row, center, space-between);
+    z-index: 5;
+
+    .price_item {
+      font-size: 13pt;
+      font-family: $baloo;
+      color: white;
+      font-weight: 500;
+    }
+
+    img {
+      width: 0.7rem;
+    }
+  }
+
+  .img_cake {
+    width: 100%;
+    height: 75%;
+    border-radius: 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 0 0 5px black;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @import url("btnLoveStyle.scss");
+
+  .details_cake {
+    position: absolute;
+    box-sizing: border-box;
+    bottom: 3%;
+    height: 20%;
+    width: 100%;
+    line-height: 18px;
+    padding-left: 6px;
+
+    .name_cake {
+      font-size: 12pt;
+      font-family: $baloo;
+      font-weight: 500;
+      color: white;
+    }
+
+    .type_cake {
+      color: $type;
+      font-family: $goldSemibold;
+      font-size: 10pt;
+    }
+
+    .lovers_cake {
+      @include loversStyle();
+    }
+  }
+}

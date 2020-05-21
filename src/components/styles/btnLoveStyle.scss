@@ -1,0 +1,105 @@
+@import "mixins.scss";
+
+.btnLove {
+  width: 30px;
+  height: 30px;
+  //@include flexboxStyle(row, center, center);
+  border-radius: 100%;
+  @include getOutBorder();
+  position: absolute;
+  bottom: 45px;
+  z-index: 1;
+  background-color: white;
+  right: 7%;
+
+  .cakeLoved {
+    color: #e2264d !important;
+    will-change: font-size;
+    animation: heartAni 1s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+
+    &::before,
+    &::after {
+      animation: inherit;
+      animation-timing-function: cubic-bezier(0.21, 0.61, 0.35, 1);
+    }
+
+    &::before {
+      will-change: transform, border-color, border-width;
+      animation-name: bubble;
+    }
+
+    &::after {
+      animation-name: particles;
+    }
+  }
+
+  .heart {
+    font-size: 1.3em;
+    color: #aab8c2;
+    cursor: default;
+    position: relative;
+
+    &:before,
+    &:after {
+      position: absolute;
+      z-index: -1;
+      content: "";
+      top: 50%;
+      left: 50%;
+      border-radius: 50%;
+    }
+  }
+
+  $bubble-d: 1.5rem;
+  $bubble-r: 0.5 * $bubble-d;
+
+  .heart::before {
+    margin: -$bubble-r;
+    width: $bubble-d;
+    height: $bubble-d;
+    background-color: gold;
+    box-sizing: border-box;
+    border: solid $bubble-r #e2264d;
+    transform: scale(0);
+  }
+
+  @keyframes heartAni {
+    0%,
+    17.5% {
+      font-size: 0;
+    }
+  }
+
+  @mixin bubble($ext) {
+    border-color: #cc8ef5;
+    border-width: $ext;
+    transform: scale(1);
+  }
+
+  @keyframes bubble {
+    15% {
+      @include bubble($bubble-r);
+    }
+    30%,
+    100% {
+      @include bubble(0);
+    }
+  }
+}
+
+.btnLoveAlone {
+  margin: 0;
+  bottom: 0;
+  right: 0;
+  position: relative !important;
+  background-color: transparent !important;
+
+  .heart {
+    font-size: 1.7em;
+    color: #aab8c2;
+  }
+
+  .heart::before {
+    background-color: transparent !important;
+  }
+}

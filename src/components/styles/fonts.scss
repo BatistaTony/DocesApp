@@ -1,0 +1,53 @@
+$goldMedium: GoldplayMedium;
+$goldRegular: GoldplayRegular;
+$goldSemibold: GoldplaySemiBold;
+$baloo: BalooDa-Regular;
+$goldBold: GoldplayBold;
+
+
+
+
+@font-face {
+    src: url(fonts/goldplay/GoldplayMedium.otf);
+    font-family: GoldplayMedium;
+}
+
+@font-face {
+    src: url(fonts/goldplay/GoldplayRegular.otf);
+    font-family: GoldplayRegular;
+}
+
+@font-face {
+    src: url(fonts/goldplay/GoldplaySemiBold.otf);
+    font-family: GoldplaySemiBold;
+}
+
+@font-face {
+    src: url(fonts/Baloo_Da/BalooDa-Regular.ttf);
+    font-family: BalooDa-Regular;
+}
+
+@font-face {
+    src: url(fonts/goldplay/GoldplayBold.otf);
+    font-family: $goldBold;
+}
+
+
+@mixin animationFade {
+    animation-name: fade;
+    animation-duration: .6s;
+    animation-iteration-count: 1;
+    animation-fill-mode: backwards;
+    animation-timing-function: ease-out;
+}
+
+@keyframes fade {
+    0% { 
+        opacity: .5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+

@@ -1,0 +1,228 @@
+@import "./colors.scss";
+@import "./fonts.scss";
+@import "./mixins.scss";
+
+.cart {
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: $login_bg;
+  @include flexboxStyle(column, center, flex-start);
+}
+
+.divCar_ {
+  width: 100%;
+  height: 81.5vh;
+  @include flexboxStyle(column, flex-start, space-between);
+}
+
+@keyframes fadeAn {
+  0% {opacity: .2;}
+  25% {opacity: .4;}
+  50% {opacity: .6;}
+  75% {opacity: .8;}
+  100% {opacity: 1;}
+}
+
+.GotNothing {
+  @extend .divCar_;
+  justify-content: center !important;
+  align-items: center !important;
+  transition: .5s;
+  animation-name: fadeAn;
+  animation-duration: .7s;
+  animation-iteration-count: 1;
+
+  .img_nth {
+    margin-top: -5em;
+    width: 80px;
+    height: 80px;
+  }
+
+  .textNth {
+    text-align: center;
+    width: 200px;
+    margin-top: 12px;
+    color: white;
+    font-size: 17pt;
+  }
+}
+
+.prods {
+  width: 100%;
+  height: auto;
+  margin-top: 6%;
+  @include flexboxStyle(column, center, flex-start);
+  padding-bottom: 50px;
+}
+
+.prod_cart {
+  width: 93%;
+  height: 60px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 0 5px $simple_txt;
+  @include flexboxStyle(row, center, flex-start);
+  position: relative;
+  margin-top: 15px;
+
+  .img_prod {
+    height: 90%;
+    width: 57px;
+    border-radius: 5px;
+    margin-left: 3px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .prod_details {
+    height: 85%;
+    width: 80%;
+    line-height: 19px;
+    margin-left: 5px;
+    margin-top:-2px;
+
+    .name_prod {
+      font-size: 12pt;
+      font-family: $baloo;
+      font-weight: 500;
+    }
+
+    .price_12_prod {
+      font-size: 10pt;
+      color: black;
+
+      margin-top: -2px;
+    }
+
+    .price_prod {
+      @extend .name_prod;
+      font-size: 12pt;
+    }
+  }
+
+  .btnDelete {
+    @include btnDeleteOrClose();
+    right: -0.5%;
+    margin: 1.5% !important;
+  }
+}
+
+.btnDiv {
+  width: 97%;
+  height: 50px;
+  @include flexboxStyle(row, center, flex-end);
+}
+
+.btnConfirm {
+  width: 150px;
+  height: 38px;
+  border-radius: 4px;
+  @include getOutBorder();
+  font-size: 11pt;
+  background-color: $btn_color;
+  font-family: $baloo;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.overlayDelete {
+  position: absolute;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  height: 0;
+  background-color: white;
+  border-top-left-radius: 50px;
+  border-top-right-radius: 50px;
+  overflow: hidden;
+  transition: 0.4s;
+
+  .divDelet {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    @include flexboxStyle(column, center, center);
+  }
+}
+
+.showDetails {
+  height: 130px;
+}
+
+.btnDelete_prod {
+  @include btnDeleteOrClose();
+}
+
+.txt_del {
+  font-size: 13pt;
+  font-family: $goldMedium;
+}
+
+.btnDelete_yes {
+  bottom: 4%;
+  color: white;
+  font-family: $goldSemibold;
+  width: 190px;
+  height: 30px;
+  margin-top: 25px;
+  font-size: 10pt;
+  background-color: rgba(170, 67, 67, 0.932);
+  border-radius: 5px;
+  @include getOutBorder();
+}
+
+.overlayConfirm {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  position: absolute;
+  z-index: 9;
+  background-color: rgba(54, 48, 48, 0.418);
+}
+
+.showConfirDiv {
+  height: 220px !important;
+}
+
+.confirDiv {
+  width: 100%;
+  height: 0;
+  bottom: 0;
+  transition: 0.5s;
+  overflow: hidden;
+  position: absolute;
+  background-color: white;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  @include flexboxStyle(column, center, center);
+}
+
+.confirmDelivery {
+  width: 100%;
+  height: 85%;
+  @include flexboxStyle(column, center, space-between);
+  padding-top: 2%;
+
+  .img_loc {
+    width: 5rem;
+  }
+
+  .titl_loc {
+    font-size: 12pt;
+    width: 75%;
+    text-align: center;
+  }
+
+  .yes_take_lo {
+    width: 220px;
+    height: 33px;
+    font-size: 11pt;
+    font-family: $baloo;
+    font-weight: 500;
+    @include getOutBorder();
+    background-color: $btn_color;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+}

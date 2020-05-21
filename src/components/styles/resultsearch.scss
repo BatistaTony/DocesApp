@@ -1,0 +1,24 @@
+@import "mixins.scss";
+
+.resultSearch {
+  width: 100%;
+  height: auto;
+  margin-top: -6em;
+}
+
+.list_of_cakes {
+  width: 95%;
+  height: auto;
+  @include flexboxStyle(row !important, flex-start !important, space-between !important);
+  flex-wrap: wrap;
+  margin-top: 10px;
+
+  
+
+  .item_cake {
+    width: 40%;
+    margin-bottom: 20px;
+    margin-left: 24px;
+    margin-right: 0;
+  }
+}
