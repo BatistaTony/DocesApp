@@ -1,20 +1,17 @@
 import React from "react";
 import "./styles/listofcake.scss";
 import ItemCake from "./item_cake";
-import { ItemType } from "./types"; 
-
-
+import { ItemType } from "./types";
 
 interface Props {
-  title: string,
-  itens: Array<ItemType>
+  title: string;
+  itens: Array<ItemType>;
 }
 
 export const ListOfitens: React.FC<Props> = ({ title, itens }) => {
-
   const styleList = {
     gridTemplateColumns: `repeat(${itens.length}, auto)`,
-    paddingRight: "4%"
+    paddingRight: "4%",
   };
 
   return (

@@ -7,8 +7,7 @@ import Notification from "./notification";
 import Cart from "./cart";
 import Cake from "./cake";
 import ReactWOW from "react-wow";
-import { ItemType, userType, cartType } from "./types";
-import { createCart } from "./store/actions/cart";
+import { userType, cartType } from "./types";
 import { connect } from "react-redux";
 import { setMenu } from "./store/actions/menu";
 import ResultSearch from "./searchResult";
@@ -32,106 +31,37 @@ interface Props {
 
 class Home extends React.Component<Props, {}> {
   state = {
-    itens: [
-      {
-        img: "/images/cake.jpg",
-        name: "Ony cake",
-        price: 100,
-        type: "aNIVERSARY",
-        isLoved: false,
-        lovers: 40,
-        key: "654645",
-      },
-      {
-        img: "/images/shot-cropped-1558159069082.png",
-        name: "Ony cake",
-        price: 100,
-        type: "aNIVERSARY",
-        isLoved: false,
-        lovers: 40,
-        key: "654646",
-      },
-    ],
-    itensnew: [
-      {
-        img: "/images/luxuryCake.jpg",
-        name: "joao cake",
-        price: 100,
-        type: "aNIVERSARY",
-        isLoved: false,
-        lovers: 40,
-        key: "654642",
-      },
-      {
-        img: "/images/transferir.jpg",
-        name: "JOny cake",
-        price: 100,
-        type: "aNIVERSARY",
-        isLoved: false,
-        lovers: 40,
-        key: "6546g48",
-      },
-      {
-        img: "/images/HAMURGUER.jpg",
-        name: "TOny cake",
-        price: 100,
-        type: "aNIVERSARY",
-        isLoved: false,
-        lovers: 40,
-        key: "6546s49",
-      },
-    ],
+    itens: [],
+    itensnew: [],
     animation: {
       delay: "0.1s",
       duration: ".3s",
     },
   };
 
-  createCartToUser = () => {
-    this.props.dispatch(createCart(this.props.state.user));
-  };
-
   async componentDidMount() {
-    if (this.props.state.cart.prods) {
-      if (this.props.state.cart.prods.length > 0) {
-        this.createCartToUser();
-      }
-    }
-
     const firestore = firebase.firestore();
 
-    await firestore
-      .collection("doces")
-      .get()
-      .then((docs) => {
-        var doces: Array<Object> = [];
-        docs.forEach((doc) => {
-          doces.push(doc.data());
-          console.log(doc.data());
-        });
-        this.setState({ itens: doces });
+    await firestore.collection("doces").onSnapshot((docs) => {
+      var doces: Array<Object> = [];
+      var newDoces: Array<Object> = [];
+      var dataNow = new Date().getDate();
+      docs.forEach((doc) => {
+        if (typeof doc.data().timestamps.seconds !== "undefined") {
+          var itemDate = new Date(
+            doc.data().timestamps.seconds * 1000
+          ).getDate();
+          if (dataNow - itemDate < 6) {
+            newDoces.push(doc.data());
+          } else {
+            doces.push(doc.data());
+          }
+        }
       });
 
-    // var newsdoces: Array<object> = [];
-
-    // await this.state.itens.map((doce, i) => {
-    //   if (i <= 10) {
-    //     newsdoces.push(doce);
-    //   }
-    // });
-    // this.setState({ itensnew: newsdoces });
-
-    // var time = [1, 2, 3, 4, 5, 6, 7, 8]
-    // var minVal
-
-    // await  time.map((x: any,i) => {
-    //   var nm = time.filter((y: any, t) => {
-    //      return x < y ? y : null
-    //   })
-    //   minVal = nm
-    // })
-
-    // console.log(minVal)
+      this.setState({ itens: doces });
+      this.setState({ itensnew: newDoces });
+    });
 
     this.props.dispatch(setMenu({ ...this.props.state.Menu, OutOf: 0 }));
   }
@@ -154,12 +84,16 @@ class Home extends React.Component<Props, {}> {
                 <ResultSearch />
               ) : (
                 <div className="content">
-                  <ListOfitens title={"News"} itens={this.state.itensnew} />
+                  {this.state.itensnew.length > 0 ? (
+                    <ListOfitens title={"News"} itens={this.state.itensnew} />
+                  ) : null}
 
-                  <ListOfitens
-                    title={"Most Populars"}
-                    itens={this.state.itens}
-                  />
+                  {this.state.itens.length > 0 ? (
+                    <ListOfitens
+                      title={"Most Populars"}
+                      itens={this.state.itens}
+                    />
+                  ) : null}
 
                   <ButtonCart />
                 </div>

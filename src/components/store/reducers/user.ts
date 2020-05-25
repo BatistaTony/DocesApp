@@ -7,11 +7,14 @@ interface actionType {
 }
 
 const initalState = {
-  img: "",
-  username: "",
-  address: "",
-  phonenumber: ""
-};
+ phonenumber: "",
+  location: {
+    coords: {
+      latitude: 0,
+      longitude: 0,
+    }
+  }
+}
 
 export default function User(state = initalState, action: actionType) {
 
@@ -21,9 +24,7 @@ export default function User(state = initalState, action: actionType) {
       return action.payload;
     }
 
-    case "LOGOUT": {
-      return initalState;
-    }
+    
 
     default: {
       return state;

@@ -52,7 +52,7 @@
     list-style: none;
     width: 55px;
     height: 100%;
-    @include flexboxStyle(row, center, space-between);
+    @include flexboxStyle(row, center, flex-end);
 
     li {
       @include flexboxStyle(row, center, center);

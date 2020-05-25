@@ -1,29 +1,60 @@
 import React from "react";
 import "./styles/notification.scss";
 import Navbar from "./navbar";
+import firebase from "./../firebase";
 
-function Notification() {
-  return (
-    <div className="notification">
-      <Navbar title={"Notifications"} />
+interface stateType {
+  notifications: [
+    {
+      title: string;
+      text: string;
+    }
+  ];
+}
 
-      <ul className="list_not">
-        {[12, 3, 4, 5, 64, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4].map((i, key) => (
-          <li className="not_" key={key}>
-            <h1 className="title_not">Top Doces</h1>
-            <p className="time_not">15 min ago</p>
-            <p className="active_not"></p>
-            <p className="texto_not">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus
-              sapiente quos vitae aliquid distinctio error porro expedita nisi
-              pariatur velit mollitia sit at, libero doloribus officia ea sed
-              iure blanditiis.
-            </p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+class Notification extends React.Component {
+  state: stateType = {
+    notifications: [
+      {
+        title: "",
+        text: "",
+      },
+    ],
+  };
+
+  componentDidMount() {
+    const firestore = firebase.firestore();
+
+    firestore.collection("notifications").onSnapshot((docs) => {
+      var notif: Array<Object> = [];
+
+      docs.forEach((doc) => {
+        notif.push(doc.data());
+      });
+
+      this.setState({ notifications: notif });
+    });
+  }
+
+  render() {
+    return (
+      <div className="notification">
+        <Navbar title={"Notifications"} />
+
+        {this.state.notifications.length > 0 ?  
+        <ul className="list_not">
+          {this.state.notifications.map((i, key) => (
+            <li className="not_" key={key}>
+              <h1 className="title_not">{i.title}</h1>
+              <p className="time_not">15 min ago</p>
+              <p className="active_not"></p>
+              <p className="texto_not">{i.text}</p>
+            </li>
+          ))}
+        </ul>: null}
+      </div>
+    );
+  }
 }
 
 export default Notification;

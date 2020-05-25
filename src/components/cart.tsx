@@ -8,6 +8,7 @@ import { setMenu } from "./store/actions/menu";
 import { setCake } from "./store/actions/cake";
 import { deleteOfCart } from "./store/actions/cart";
 import firebase from "./../firebase";
+import UserOrder from "./userOrder";
 
 interface Props {
   dispatch: any;
@@ -20,12 +21,14 @@ interface Props {
 interface stateType {
   prods: Array<ItemType>;
   deleteOne: string;
+  error: string
 }
 
 class Cart extends Component<Props, {}> {
   state: stateType = {
     prods: [],
     deleteOne: "",
+    error: ""
   };
 
   componentDidMount() {
@@ -44,14 +47,45 @@ class Cart extends Component<Props, {}> {
     this.setState({ prods: this.props.state.cart.prods });
   };
 
+  orderCart = async () => {
+    const orderData = {
+      user: this.props.state.user,
+      cart: this.props.state.cart,
+      timestamp: Date.now(),
+    };
+
+    const firestore = firebase.firestore();
+    firestore
+      .collection("order")
+      .add({
+        ...orderData,
+      })
+      .then((res) => {
+        this.showSucessOrFail("Ordered")
+      }).catch(err => this.showSucessOrFail("Failed") );
+  };
+
+  showSucessOrFail = async (text: string) => {
+    this.setState({error: text});
+    await $(".OverlaySucess").fadeIn(500);
+
+    setTimeout(() => {
+      $(".OverlaySucess").fadeOut(400);
+    }, 500);
+  };
+
   notDelete = () => {
     $(".overlayDelete").removeClass("showDetails");
     this.setState({ deleteOne: {} });
   };
 
   ShowLocationDiv = () => {
-    $(".overlayConfirm").fadeIn();
-    $(".confirDiv").addClass("showConfirDiv");
+    if (this.props.state.user.phonenumber.length > 0) {
+      this.orderCart()
+    } else {
+      $(".overlayConfirm").fadeIn();
+      $(".confirDiv").addClass("showConfirDiv");
+    }
   };
 
   hideLocationDiv = () => {
@@ -66,41 +100,19 @@ class Cart extends Component<Props, {}> {
     await this.props.dispatch(setMenu({ number: 3, status: "go", OutOf: 2 }));
   };
 
-  orderCart = async (position: any) => {
-    const orderData = {
-      user: this.props.state.user,
-      prods: this.state.prods,
-      location: {
-        coords: {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        },
-      },
-      timestamp: Date.now(),
-    };
-
-    const firestore = firebase.firestore();
-
-    firestore.collection("order").add({
-      orderData,
-    }).then(res => {
-      console.log(res)
-      this.hideLocationDiv()
-    });
-
-    console.log(orderData);
-  };
-
-  takeLocation = async () => {
-    if (navigator.geolocation) {
-      await navigator.geolocation.getCurrentPosition(this.orderCart);
-    }
-  };
-
   render() {
     return (
       <div className="cart">
         <Navbar title={"Cart"} />
+
+        <div className="OverlaySucess">
+          <div className="div_1_">
+            <div className="textD">
+              <img src="images/icons8_checkmark_40px.png" alt="" />
+              {this.state.error}
+            </div>
+          </div>
+        </div>
 
         <div className="overlayDelete">
           <div className="divDelet">
@@ -114,22 +126,7 @@ class Cart extends Component<Props, {}> {
           </div>
         </div>
 
-        <div className="overlayConfirm">
-          <div className="confirDiv">
-            <div className="confirmDelivery">
-              <button className="btnDelete_prod" onClick={this.hideLocationDiv}>
-                <img src="images/icons8_delete_30px_2.png" alt="" />
-              </button>
-              <img src="images/ImageLoc.png" alt="" className="img_loc" />
-              <h1 className="titl_loc">
-                Para fazer a encomenda precisamos pegar a localizacao
-              </h1>
-              <button className="yes_take_lo" onClick={this.takeLocation}>
-                Permitir
-              </button>
-            </div>
-          </div>
-        </div>
+        <UserOrder orderWhat={"cart"} />
 
         {this.state.prods.length === 0 ? (
           <div className="GotNothing">

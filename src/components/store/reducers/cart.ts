@@ -1,44 +1,29 @@
-import { cartType, ItemType } from "./../../types";
+import { cartType } from "./../../types";
 
 interface actionType {
   type: string;
-  cart?: any;
-  payload?: any;
+  payload: any;
 }
 
-const initialState = {
-  user: {
-    img: "",
-    username: "",
-    phonenumber: "",
-    address: "",
-  },
+const initialState:cartType = {
   prods: [],
 };
 
-export default function cart(
-  state: cartType = initialState,
-  action: actionType
-) {
+export default function cart(state = initialState, action: actionType) {
   switch (action.type) {
-
-    case "CREATE_CART": {
-      return action.cart;
-    }
-
     case "ADD_TO_CART": {
-
       if (state.prods) {
         state.prods.push(action.payload);
       }
 
-      return state;
+      var stateC = state;
+
+      return stateC;
     }
 
     case "DELETE_OF_CART": {
       if (state.prods) {
         var indexToDel: number = -1;
-
         state.prods.map((item, index) => {
           if (item.key === action.payload) {
             indexToDel = index;
@@ -50,7 +35,9 @@ export default function cart(
         }
       }
 
-      return state;
+      var stateC = state;
+
+      return stateC;
     }
 
     default: {

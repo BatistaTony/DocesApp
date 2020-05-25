@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import "./styles/cake.scss";
+import "./styles/cart.scss";
 import Navbar from "./navbar";
 import $ from "jquery";
 import { addToCart } from "./store/actions/cart";
 import { ItemType, userType } from "./types";
 import { useSelector, useDispatch } from "react-redux";
-import firebase from './../firebase'
+import firebase from "./../firebase";
+import UserOrder from "./userOrder";
 
 export default function Cake() {
   const item: ItemType = useSelector((state: any) => state.cake);
+  const user = useSelector((state: any) => state.user);
+  const cake = useSelector((state: any) => state.cake);
 
   const dispatch = useDispatch();
 
-  const { username, phonenumber, address }: userType = useSelector(
-    (state: any) => state.user
-  );
-
   const [actionDone, setActionDone] = useState("none");
 
-  const { img, name, price, isLoved, lovers, type, key } = item;
+  const { img, name, price, isLoved, lovers, type } = item;
 
   const [quantity, setQuant] = useState<number>(1);
   const [forWhat, setForW] = useState("none");
@@ -54,6 +54,25 @@ export default function Cake() {
     }
   };
 
+  const orderCake = async () => {
+    const orderData = {
+      user,
+      cake,
+      quantity,
+    };
+
+    console.log("orderData");
+    const firestore = firebase.firestore();
+
+    await firestore
+      .collection("order")
+      .add({ ...orderData })
+      .then((res) => {
+        showSucessOrFail("Ordered");
+      })
+      .catch((err) => showSucessOrFail("Failed"));
+  };
+
   const showOrderDiv = (forWhat: string) => {
     $(".orderProdNumber").addClass("orderDivShowed");
     setForW(forWhat);
@@ -64,11 +83,19 @@ export default function Cake() {
     setQuant(1);
   };
 
-  const addTocart = async () => {
+  const showSucessOrFail = async (text: string) => {
+    setActionDone(text);
+    await $(".OverlaySucess").fadeIn(500);
 
+    setTimeout(() => {
+      $(".OverlaySucess").fadeOut(400);
+    }, 500);
+  };
+
+  const addTocart = async () => {
     setActionDone("Added");
 
-    await dispatch(addToCart({...item, quantity}));
+    await dispatch(addToCart({ ...item, quantity }));
 
     await $(".orderProdNumber").removeClass("orderDivShowed");
 
@@ -79,51 +106,24 @@ export default function Cake() {
     }, 500);
   };
 
-  const orderNow = async (position?: any) => {
-
-    setActionDone("Ordered");
-
-    const orderObject = {
-      username,
-      phonenumber,
-      address,
-      item: { ...item, quantity },
-      location: {
-        coords: {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        },
-      },
-      timestamp: Date.now(),
-    };
-
-    const firestore = firebase.firestore()
-    
-    firestore.collection('order').add({
-      orderObject
-    })
-
-    await $(".orderProdNumber").removeClass("orderDivShowed");
-
-    await $(".OverlaySucess").fadeIn(500);
-
-    setTimeout(() => {
-      $(".OverlaySucess").fadeOut(400);
-    }, 500);
-  };
-
-   const takeLocation = async () => {
-     if (navigator.geolocation) {
-       await navigator.geolocation.getCurrentPosition(orderNow);
-     }
-   };
+  const addFavorites = () => {};
 
   const orderOrAddToCart = () => {
     if (forWhat === "Order Now") {
-      takeLocation();
+      if (user.phonenumber.length > 0) {
+        orderCake()
+      } else {
+        ShowLocationDiv();
+      }
+      $(".orderProdNumber").removeClass("orderDivShowed");
     } else if (forWhat === "Add to cart") {
       addTocart();
     }
+  };
+
+  const ShowLocationDiv = () => {
+    $(".overlayConfirm").fadeIn();
+    $(".confirDiv").addClass("showConfirDiv");
   };
 
   return (
@@ -139,9 +139,14 @@ export default function Cake() {
         </div>
       </div>
 
+      <UserOrder orderWhat={"cake"} quantity={quantity} />
+
       <div className="cake_info">
         <div className="img_div">
-          <div className="img_cake" style={{backgroundImage: `url(${img})`}}></div>
+          <div
+            className="img_cake"
+            style={{ backgroundImage: `url(${img})` }}
+          ></div>
         </div>
 
         <div className="details_cake">

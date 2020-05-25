@@ -1,11 +1,6 @@
-import { ItemType, userType } from "./../../types";
+import { ItemType } from "./../../types";
 
-export const createCart = (payload: userType) => {
-  return {
-    type: "CREATE_CART",
-    cart: {user: payload, prods: []},
-  };
-};
+
 
 export const addToCart = (payload: ItemType) => {
   return {

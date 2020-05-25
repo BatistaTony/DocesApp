@@ -10,15 +10,17 @@ export interface ItemType {
 }
 
 export interface userType {
-  img: string;
-  username: string;
-  address: string;
   phonenumber: string;
+  location: {
+    coords: {
+      latitude: number;
+      longitude: number;
+    };
+  };
 }
 
 export interface cartType {
-  user: userType;
-  prods?: Array<ItemType>;
+  prods: Array<ItemType>;
 }
 
 export interface storyType {

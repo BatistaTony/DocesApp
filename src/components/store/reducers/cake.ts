@@ -5,7 +5,7 @@ interface actionType {
   payload: ItemType;
 }
 
-const initialState = {
+const initialState:ItemType = {
   img: "",
   name: "",
   price: 0,

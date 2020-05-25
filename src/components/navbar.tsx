@@ -6,7 +6,6 @@ import { search } from "./store/actions/search"; //@ts igonre
 import { useSelector, useDispatch } from "react-redux";
 import $ from "jquery";
 import { ItemType } from "./types";
-import { logout } from "./store/actions/user";
 
 interface Props {
   title?: string;
@@ -17,10 +16,9 @@ export default function Navbar({ title }: Props) {
   const searchValue = useSelector((state: any) => state.Search.name);
 
   const menu = useSelector((state: any) => state.Menu);
-  const user = useSelector((state: any) => state.user);
   const cart = useSelector((state: any) => state.cart);
   const cake = useSelector((state: any) => state.cake);
-  const [notifications, setNotifi] = useState(2)
+  const [notifications, setNotifi] = useState(1)
 
   const dispatch = useDispatch();
 
@@ -38,19 +36,13 @@ export default function Navbar({ title }: Props) {
     dispatch(setMenu({ number: to, status: status, OutOf }));
   };
 
-  const showUserDeatils = () => {
-    $(".userDetails").fadeToggle();
-  };
+ 
 
   const loveCake = (cake_id: string) => {
     $(".cake_" + cake_id).toggleClass("cakeLoved");
-
-    // send the #item to #lovedCakes list of user
   };
 
-  const logOut = () => {
-      dispatch(logout())
-  }
+ 
 
   const calTotalCart = () => {
     var total: number = 0;
@@ -101,28 +93,7 @@ export default function Navbar({ title }: Props) {
                 <img src="images/icons8_notification_24px.png" alt="" />{" "}
                   <p className="not_n">{notifications}</p>{" "}
               </li>
-              <li className="user_perfil">
-                <img
-                  className="avatar_"
-                  src={user.img ? user.img : "images/avatar.png"}
-                  onClick={showUserDeatils}
-                  alt=""
-                />
-
-                <div className="userDetails">
-                  <div className="dados_">
-                    <img className="avatar_d" src="images/avatar.png" alt="" />
-
-                    <h1 className="name_user">
-                      {user.username ? user.username : "none"}
-                    </h1>
-                    <p className="address_user">
-                      {user.address ? user.address : "none"}
-                    </p>
-                    <button className="logOut" onClick={logOut}>Log out</button>
-                  </div>
-                </div>
-              </li>
+              
             </ul>
           </div>
         )}
